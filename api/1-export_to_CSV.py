@@ -9,10 +9,16 @@ import sys
 if __name__ == "__main__":
     user_id = sys.argv[1]
 
-    user_url = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
+    user_url = (
+        "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
+    )
     user = requests.get(user_url).json()
 
-    tasks_url = "https://jsonplaceholder.typicode.com/todos?userId={}".format(user_id)
+    tasks_url = (
+        "https://jsonplaceholder.typicode.com/todos?userId={}".format(
+            user_id
+        )
+    )
     tasks = requests.get(tasks_url).json()
 
     with open("{}.csv".format(user_id), "w", newline="") as csvfile:
