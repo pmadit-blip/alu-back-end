@@ -2,8 +2,11 @@
 """Export employee tasks to CSV."""
 
 import csv
-import requests
 import sys
+from pathlib import Path
+
+import requests
+
 
 if __name__ == "__main__":
     user_id = sys.argv[1]
@@ -15,7 +18,9 @@ if __name__ == "__main__":
     tasks_url = f"https://jsonplaceholder.typicode.com/todos?userId={user_id}"
     tasks = requests.get(tasks_url).json()
 
-    with open(f"{user_id}.csv", "w", newline="", encoding="utf-8") as csvfile:
+    file_path = Path(__file__).resolve().parent / f"{user_id}.csv"
+
+    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
         for task in tasks:
