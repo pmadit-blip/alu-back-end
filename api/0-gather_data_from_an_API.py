@@ -1,19 +1,33 @@
+
 #!/usr/bin/python3
-"""Returns TODO list progress for a given employee ID."""
-import requests
+"""Gather employee TODO progress from a REST API."""
+
 import sys
+import urllib.request
 
 if __name__ == "__main__":
-    base = "https://jsonplaceholder.typicode.com"
-    user_id = sys.argv[1]
+    employee_id = int(sys.argv[1])
 
-    user = requests.get("{}/users/{}".format(base, user_id)).json()
-    todos = requests.get("{}/todos".format(base),
-                         params={"userId": user_id}).json()
+    user_url = (
+        f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    )
+    tasks_url = (
+        f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    )
 
-    done = [t for t in todos if t.get("completed")]
+    with urllib.request.urlopen(user_url) as response:
+        employee = __import__("json").load(response)
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(done), len(todos)))
-    for task in done:
-        print("\t {}".format(task.get("title")))
+    with urllib.request.urlopen(tasks_url) as response:
+        tasks = __import__("json").load(response)
+
+    completed_tasks = [task for task in tasks if task["completed"]]
+
+    print(
+        f"Employee {employee['name']} is done with tasks"
+        f"({len(completed_tasks)}/{len(tasks)}):"
+    )
+
+    for task in completed_tasks:
+        print(f"\t {task['title']}")
+
