@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """Gather employee TODO progress from a REST API."""
 
@@ -34,4 +33,3 @@ if __name__ == "__main__":
 
     for task in completed_tasks:
         print(f"\t {task['title']}")
-
