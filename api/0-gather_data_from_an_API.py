@@ -1,8 +1,11 @@
+
 #!/usr/bin/python3
 """Gather employee TODO progress from a REST API."""
 
+import json
 import sys
 import urllib.request
+
 
 if __name__ == "__main__":
     employee_id = int(sys.argv[1])
@@ -15,12 +18,14 @@ if __name__ == "__main__":
     )
 
     with urllib.request.urlopen(user_url) as response:
-        employee = __import__("json").load(response)
+        employee = json.load(response)
 
     with urllib.request.urlopen(tasks_url) as response:
-        tasks = __import__("json").load(response)
+        tasks = json.load(response)
 
-    completed_tasks = [task for task in tasks if task["completed"]]
+    completed_tasks = [
+        task for task in tasks if task["completed"]
+    ]
 
     print(
         f"Employee {employee['name']} is done with tasks"
@@ -29,3 +34,4 @@ if __name__ == "__main__":
 
     for task in completed_tasks:
         print(f"\t {task['title']}")
+
