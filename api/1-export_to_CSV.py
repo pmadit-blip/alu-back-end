@@ -1,7 +1,5 @@
-
 #!/usr/bin/python3
 """Export employee tasks to CSV."""
-
 import csv
 import pathlib
 import requests
@@ -38,4 +36,3 @@ if __name__ == "__main__":
                 task.get("completed"),
                 task.get("title")
             ])
-
